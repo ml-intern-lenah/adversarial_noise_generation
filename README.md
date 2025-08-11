@@ -11,9 +11,9 @@ This project creates an adversarial noise generator suing the targeted fast grad
 **Outputs:** output image (which looks similar to input image but with adversarial noise), adversarial noise image, json file, 
 
 ## Usage
-SHould have all files in the same folder
+Should have all files in the same folder
 
-```bash
+```bash/ linux command window run
 
 python adversarial_noise_generator.py --input (specify directory to example image) --target (specify target number from ImageNet or whichever dataset) --eps (specify weighting of adversarial noise) --out (specify desired output directory)
 
