@@ -57,3 +57,15 @@ def deprocess(tensor):
     img = img * std + mean
     img = torch.clamp(img, 0, 1)
     return transforms.ToPILImage()(img)
+
+
+# Tranfer learning - loading the pretrained CNN classification model
+
+def load_model(name: str):
+    """
+    Parameters: specific name of pretained model e.g ResNet18/50
+    Returns: Loadeda pretrained torchvision model
+    """
+    model = getattr(models, name)(pretrained=True)
+    model.eval()
+    return model
