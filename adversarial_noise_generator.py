@@ -4,9 +4,6 @@ FGSM Adversarial Noise Generator
 --------------------------------
 Generates an adversarial image from an input image such that a pretrained CNN
 misclassifies it into a user-specified target class, using Fast Gradient Sign Method (FGSM).
-
-Usage:
-    python fgsm_advgen.py --input path/to/image.jpg --target 281 --eps 8/255 --out output_dir
 """
 
 import argparse
