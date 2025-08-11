@@ -69,3 +69,16 @@ def load_model(name: str):
     model = getattr(models, name)(pretrained=True)
     model.eval()
     return model
+
+
+# prediction function
+def predict(model, image, class_names):
+    """
+    Parameters: specific name of pretained model e.g ResNet18/50,input image, name of target classes
+    Returns: predicted class, probability of class and 'human-visible label'
+    """
+    with torch.no_grad():
+        output = model(image)
+        probs = torch.softmax(output, dim=1)
+        conf, label = torch.max(probs, 1)
+    return label.item(), conf.item(), class_names[label]
