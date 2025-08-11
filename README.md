@@ -11,6 +11,7 @@ This project creates an adversarial noise generator suing the targeted fast grad
 **Outputs:** output image (which looks similar to input image but with adversarial noise), adversarial noise image, json file, 
 
 ## Usage
+SHould have all files in the same folder
 
 ```bash
 
