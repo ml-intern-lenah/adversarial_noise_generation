@@ -55,6 +55,37 @@ def main():
     parser.add_argument("--eps", type=float, default=8/255, help="Perturbation magnitude")
     parser.add_argument("--out", type=Path, required=True, help="Output directory")
     args = parser.parse_args()
+    
+    # Prepare output directory
+    args.out.mkdir(parents=True, exist_ok=True)
+
+    # Load model, class names, and image
+    model = load_model(args.model)
+    class_names = load_imagenet_classes()
+    image = preprocess_image(args.input)
+
+    # prediction label before adding adversarial noise
+    pre_label, pre_conf, pre_name = predict(model, image, class_names)
+    
+    # fgsm run 
+    adv_image = fgsm(model, image, args.target, args.eps)
+
+    # Predict after attack
+    post_label, post_conf, post_name = predict(model, adv_image, class_names)
+
+    # Save results
+    adv_path = args.out / f"adv_{args.input.name}"
+    diff_path = args.out / f"diff_{args.input.stem}.png"
+    meta_path = args.out / f"meta_{args.input.stem}.json"
+
+    deprocess(adv_image).save(adv_path)
+
+    # amplified difference for visualisation
+    diff = (adv_image - image).squeeze(0)
+    diff = diff / (2 * args.eps) + 0.5  # normalize to [0,1]
+    diff_img = transforms.ToPILImage()(diff)
+    diff_img.save(diff_path)
+
 
 
 
