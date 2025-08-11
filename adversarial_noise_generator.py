@@ -85,6 +85,36 @@ def main():
     diff = diff / (2 * args.eps) + 0.5  # normalize to [0,1]
     diff_img = transforms.ToPILImage()(diff)
     diff_img.save(diff_path)
+    
+    
+    # adding metadata
+    success = (post_label == args.target)
+    meta = {
+        "input": str(args.input),
+        "adv": str(adv_path),
+        "diff": str(diff_path),
+        "model": args.model,
+        "target": args.target,
+        "target_name": class_names[args.target],
+        "eps": args.eps,
+        "success": success,
+        "pre_label": pre_label,
+        "pre_name": pre_name,
+        "pre_conf": pre_conf,
+        "post_label": post_label,
+        "post_name": post_name,
+        "post_conf": post_conf,
+    }
+    with open(meta_path, "w") as f:
+        json.dump(meta, f, indent=2)
+
+    print(f"Adversarial image saved to {adv_path}")
+    print(f"Diff image saved to {diff_path}")
+    print(f"Metadata saved to {meta_path}")
+    print(f"Attack success: {success}")
+    print(f"Before: {pre_name} ({pre_conf:.4f})")
+    print(f"After: {post_name} ({post_conf:.4f})")
+
 
 
 
